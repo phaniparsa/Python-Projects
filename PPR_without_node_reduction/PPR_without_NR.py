@@ -5,7 +5,7 @@ import pandas as pd
 import networkx as nx
 
 # Reading raw data and building a Graph
-file_Handler = open("C:/Users/useradmin/Desktop/Matin/PPR_without_node_reduction/Cit-HepTh_Output.txt", 'r')
+file_Handler = open("C:/Users/useradmin/Desktop/Matin/Python-Projects/PPR_without_node_reduction/Cit-HepTh_Output.txt", 'r')
 G = nx.DiGraph()
 
 for line in file_Handler.readlines():
@@ -29,7 +29,7 @@ beta = 1/float(6)
 InversePPREstimateVector = {}
 Target_Set = set()
 Frontier_Set = set()
-results = pd.DataFrame(columns=('start_Node', 'target_Node', 'start_Time', 'end_Time', 'Time taken', 'PPREstimate', 'Threshold','Reverse_Threshold', 'Additive_Error', 'Frontier_Size', 'number_of_walks',  'walks_Hitting_Frontier'))
+results = pd.DataFrame(columns=('start_Node', 'target_Node', 'start_Time', 'end_Time', 'Time taken', 'PPREstimate', 'Threshold','Reverse_Threshold', 'Additive_Error', 'Frontier_Size', 'number_of_walks',  'walks_Hitting_Frontier', 'number_of_nodesCrossed'))
 
 
 
@@ -77,6 +77,7 @@ def frontier():
 def fastPpr(start_node, target_node):
     walks_Hitting_Frontier = 0
     attributes_Dictionary["start_Time"] = time.clock()
+    number_of_nodesCrossed = 0
     estimate = 0
     frontier()        
     if start_node in Target_Set:
@@ -85,11 +86,12 @@ def fastPpr(start_node, target_node):
     else:
         num_of_walks = int((c*reverse_threshold)/float(threshold))
         attributes_Dictionary["number_of_walks"] = num_of_walks
-        
+        number_of_nodesCrossed = 0
         for i in range(num_of_walks):
             current_node = start_node
             temp = random.random()
             while temp > teleport_probability and G.out_degree(current_node) > 0 and current_node not in Frontier_Set:
+                number_of_nodesCrossed =  number_of_nodesCrossed+1
                 random_neighbor_index = random.randint(1, len(G.successors(current_node)))
                 random_neighbor = (G.successors(current_node))[random_neighbor_index - 1]
                 print "random_neighbor: ", random_neighbor
@@ -106,6 +108,7 @@ def fastPpr(start_node, target_node):
             if current_node in Frontier_Set:
                 walks_Hitting_Frontier = walks_Hitting_Frontier+1
                 estimate += (1/float(num_of_walks))*(InversePPREstimateVector[current_node])
+    attributes_Dictionary["number_of_nodesCrossed"] = number_of_nodesCrossed
     attributes_Dictionary["end_Time"] = time.clock()
     attributes_Dictionary["walks_Hitting_Frontier"] = walks_Hitting_Frontier
     attributes_Dictionary["PPREstimate"] =  estimate
@@ -114,7 +117,7 @@ def fastPpr(start_node, target_node):
 
 
 def write_Output():
-    results.to_csv("C:/Users/useradmin/Desktop/Matin/PPR_without_node_reduction/PPREstimates_withoutNR.csv", index = False)
+    results.to_csv("C:/Users/useradmin/Desktop/Matin/Python-Projects/PPR_without_node_reduction/PPREstimates_withoutNR.csv", index = False)
     return    
 inp = 1
 
@@ -129,7 +132,7 @@ while inp is 1:
     fastPpr(start_node, target_node)
     attributes_Dictionary["Time taken"] = attributes_Dictionary["end_Time"] - attributes_Dictionary["start_Time"]
     print attributes_Dictionary
-    results.loc[len(results)] = [attributes_Dictionary['start_Node'], attributes_Dictionary['target_Node'], attributes_Dictionary['start_Time'], attributes_Dictionary['end_Time'], attributes_Dictionary['Time taken'], attributes_Dictionary['PPREstimate'], attributes_Dictionary['Threshold'], attributes_Dictionary['Reverse_Threshold'], attributes_Dictionary['Additive_Error'], attributes_Dictionary['Frontier_Size'], attributes_Dictionary['number_of_walks'],  attributes_Dictionary['walks_Hitting_Frontier']]
+    results.loc[len(results)] = [attributes_Dictionary['start_Node'], attributes_Dictionary['target_Node'], attributes_Dictionary['start_Time'], attributes_Dictionary['end_Time'], attributes_Dictionary['Time taken'], attributes_Dictionary['PPREstimate'], attributes_Dictionary['Threshold'], attributes_Dictionary['Reverse_Threshold'], attributes_Dictionary['Additive_Error'], attributes_Dictionary['Frontier_Size'], attributes_Dictionary['number_of_walks'],  attributes_Dictionary['walks_Hitting_Frontier'], attributes_Dictionary['number_of_nodesCrossed']]
     inp = int(input("Please enter 1 if you wish to continue or 0 to save the results and exit: "))
     if inp==0:
         write_Output()
