@@ -32,7 +32,7 @@ readInputGraph()
 
 
 def write_Output():
-    results.to_csv("C:/Users/useradmin/Desktop/Matin/Python-Projects/30thJan_FASTPPR/PPR_Estimates.csv", index = False)
+    results.to_csv("C:/Users/useradmin/Desktop/Matin/Python-Projects/30thJan_FASTPPR/Input1_PPREstimates_TwentyPercent.csv", index = False)
     return 
         
 
@@ -80,8 +80,8 @@ def computeFrontier(inversePPREstimates, reversePPRSignificanceThreshold):
             for uId in G.predecessors(vId):
                 frontier.add(uId)
     #frontier = frontier-target
-    print "frontier: ", frontier
-    print "len(frontier): ", len(frontier)
+    print ("frontier: ", frontier)
+    print ("len(frontier): ", len(frontier))
     attributes_Dictionary['frontier_Size'] = len(frontier)
     return frontier
 
@@ -93,7 +93,7 @@ def pprToFrontier(startId, forwardPPRSignificanceThreshold, frontier, inversePPR
     walksHittingFrontier = 0
     estimate = 0
     nodesCrossed_Count = 0
-    print "walkCount: ", walkCount
+    print ("walkCount: ", walkCount)
     for i in range(int(walkCount)):
         currentNode = startId
         while random.random()>teleport_probability and len(G.successors(currentNode))>0 and currentNode not in frontier:
@@ -108,7 +108,7 @@ def pprToFrontier(startId, forwardPPRSignificanceThreshold, frontier, inversePPR
     attributes_Dictionary['nodesCrossed_Count'] = nodesCrossed_Count
     attributes_Dictionary['walksHittingFrontier'] = walksHittingFrontier
     attributes_Dictionary['estimate'] = estimate
-    print "Estimate from pprToFrontier: ", estimate
+    print ("Estimate from pprToFrontier: ", estimate)
     return estimate
 
 
@@ -117,9 +117,9 @@ def main():
     attributes_Dictionary['start_time'] = start_time
     inversePPREstimates = estimateInversePPR(targetId, reversePPRApproximationFactor*reverse_threshold)    
     frontier = computeFrontier(inversePPREstimates, reverse_threshold)
-    print inversePPREstimates[startId]
+    print (inversePPREstimates[startId])
     if inversePPREstimates[startId] >= reverse_threshold or startId in frontier:
-        print "Estimate inversePPREstimates[startId]: ", inversePPREstimates[startId]
+        print ("Estimate inversePPREstimates[startId]: ", inversePPREstimates[startId])
         attributes_Dictionary['estimate'] = inversePPREstimates[startId]
         attributes_Dictionary['PPRtoFrontier()'] = "N"
     else:
@@ -127,11 +127,11 @@ def main():
     end_time = time.clock()
     total_time = end_time-start_time
     attributes_Dictionary['end_time'] = end_time
-    print "total_time:", total_time
+    print ("total_time:", total_time)
     attributes_Dictionary['time_Taken'] = end_time-start_time
 
 
-print "Total number of nodes in graph is: ", len(G.nodes())
+print ("Total number of nodes in graph is: ", len(G.nodes()))
 pprSignificanceThreshold = 4/float(len(G.nodes())) #small delta
 reverse_threshold = math.sqrt(pprSignificanceThreshold) #Epsilon(r)
 teleport_probability = 0.2 #Alpha
