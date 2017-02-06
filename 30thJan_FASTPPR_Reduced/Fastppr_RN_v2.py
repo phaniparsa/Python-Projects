@@ -28,7 +28,7 @@ attributes_Dictionary = {}
 def readInputGraph():
     c = input()
     #print (c)
-    file_Handler = open("C:/Users/useradmin/Desktop/Matin/Python-Projects/30thJan_FASTPPR_Reduced/input1.txt", 'r')
+    file_Handler = open("C:/Users/useradmin/Desktop/Matin/Python-Projects/30thJan_FASTPPR_Reduced/input3.txt", 'r')
 
     for line in file_Handler.readlines():
         #print (line)
@@ -43,7 +43,7 @@ readInputGraph()
 #print ("Here")
 
 def write_Output():
-    results.to_csv("C:/Users/useradmin/Desktop/Matin/Python-Projects/30thJan_FASTPPR_Reduced/Input1_ReducedPPREstimates_TwentyPercent.csv", index = False)
+    results.to_csv("C:/Users/useradmin/Desktop/Matin/Python-Projects/30thJan_FASTPPR_Reduced/Input3_ReducedPPREstimates.csv", index = False)
     return 
 
 Pg = nx.DiGraph()
@@ -71,7 +71,7 @@ def remove_Nodes():
 
 
 def write_toFile():
-    file_writer = open('Input1_ModifiedGraph_TwentyPercent.txt', 'w')
+    file_writer = open('Input3_ModifiedGraph_TwentyPercent.txt', 'w')
     for each_Edge in G.edges():
         source = each_Edge[0]
         to = each_Edge[1]
@@ -177,7 +177,7 @@ def main():
     attributes_Dictionary['time_Taken'] = end_time-start_time
 
 print ("Total number of nodes in graph is: ", len(G.nodes()))
-print ("20% of the nodes are: ", 0.2*len(G.nodes()))
+print ("20% of the nodes are: ", 0.1*len(G.nodes()))
 H = int(input("Please enter the number of Hub nodes: "))
 construct_HubNodeSet(H)
 remove_Nodes()
