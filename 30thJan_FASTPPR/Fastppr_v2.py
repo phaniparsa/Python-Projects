@@ -18,7 +18,7 @@ attributes_Dictionary = {}
 
 
 def readInputGraph():
-    file_Handler = open("C:/Users/useradmin/Desktop/Matin/Python-Projects/30thJan_FASTPPR/input3.txt", 'r')
+    file_Handler = open("C:/Users/useradmin/Desktop/Matin/Python-Projects/30thJan_FASTPPR/input2.txt", 'r')
     c = input()
     for line in file_Handler.readlines():
         data = line.rstrip().split(' ')
@@ -32,7 +32,7 @@ readInputGraph()
 
 
 def write_Output():
-    results.to_csv("C:/Users/useradmin/Desktop/Matin/Python-Projects/30thJan_FASTPPR/Input3_PPREstimates.csv", index = False)
+    results.to_csv("C:/Users/useradmin/Desktop/Matin/Python-Projects/30thJan_FASTPPR/Input2_PPREstimates.csv", index = False)
     return 
         
 
