@@ -1,8 +1,0 @@
-revesePPRSignificanceThreshold:  0.0124587016654
-forwardPPRSignificanceThreshold:  0.0124587016654
-pprSignificanceThreshold:  0.000155219247187
-reverse_threshold:  0.0124587016654
-teleport_probability:  0.2
-reversePPRApproximationFactor:  0.166666666667
-pprErrorTolerance:  0.00207645027756
-c:  350
